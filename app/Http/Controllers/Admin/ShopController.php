@@ -18,7 +18,6 @@ class ShopController extends Controller
             'name_shop' => 'required',
             'phone' => 'required',
             'address' => 'required',
-            'path' => 'required',
             'desc' => 'required',
         ]);
 
