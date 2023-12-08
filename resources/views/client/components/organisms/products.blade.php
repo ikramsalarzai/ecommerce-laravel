@@ -1,23 +1,27 @@
 @push('css')
     <style>
-         .product-title{
-            font-size:1.2rem;
+        .product-title {
+            font-size: 1.2rem;
             display: -webkit-box;
             overflow: hidden;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            height:3.5rem;
+            height: 3.5rem;
             transition: 0.2s cubic-bezier(0.57, 0, 0.06, 0.95);
         }
 
-        .card:hover{
+        .card {
             transition: 0.2s cubic-bezier(0.57, 0, 0.06, 0.95);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
-        
-        @media screen and (max-width: 767px){
-            .product-title{
-                font-size:1rem;
+
+        .card:hover {
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+        }
+
+        @media screen and (max-width: 767px) {
+            .product-title {
+                font-size: 1rem;
             }
         }
     </style>
