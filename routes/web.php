@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ShopController;
+// use App\Http\Controllers\Admin\ShopController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,19 @@ use App\Http\Controllers\Client\CartController;
 |
 */
 
-// Client
+// customer login
+// login
+Route::get('/customer-login', [CustomerController::class, 'showLoginForm'])->name('customer.login');
+ Route::post('/customer-login', [CustomerController::class, 'login'])->name('customer.login');
 
+// register
+Route::get('/customer-registration', [CustomerController::class, 'showRegistrationForm'])->name('customer.registration');
+Route::post('/customer', [CustomerController::class, 'customerRegister'])->name('customer.register');
+
+
+
+
+// Client
 Route::controller(ClientController::class)->group(function(){
     Route::get('/', 'index')->name('clientHome');
     Route::get('/products', 'products')->name('clientProducts');
@@ -91,4 +103,5 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/order/update-status/{order_code}', 'updateStatus')->name('orderUpdateStatus');
         Route::get('/admin/order/delete/{order_code}', 'delete')->name('orderDelete');
     });
+
 });
