@@ -11,23 +11,23 @@
   <li class="nav-item">
       <a href="{{ route('clientAbout') }}" class="nav-link">About</a>
   </li>
+  <li class="nav-item">
+      <a href="{{ route('clientCheckOrder') }}" class="nav-link">Check Order</a>
+  </li>
 
-  @auth('customer')
+  {{-- Display different menu items based on customer login status --}}
+  @if (auth()->check())
+      {{-- Display this when the customer is logged in --}}
       <li class="nav-item">
-          <a href="{{ route('clientCheckOrder') }}" class="nav-link">Check Order</a>
-      </li>
-      <li class="nav-item">
-          <form method="POST" action="{{ route('customer.logout') }}">
-              @csrf
-              <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer;">Logout</button>
-          </form>
+          <a href="{{ route('customer.logout') }}" class="nav-link">Logout</a>
       </li>
   @else
+      {{-- Display this when the customer is not logged in --}}
       <li class="nav-item">
           <a href="{{ route('customer.login') }}" class="nav-link">Login</a>
       </li>
       <li class="nav-item">
           <a href="{{ route('customer.registration') }}" class="nav-link">Register</a>
       </li>
-  @endauth
+  @endif
 </ul>
