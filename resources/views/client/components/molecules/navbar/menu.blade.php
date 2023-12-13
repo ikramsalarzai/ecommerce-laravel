@@ -15,12 +15,10 @@
       <a href="{{ route('clientCheckOrder') }}" class="nav-link">Check Order</a>
   </li>
 
-  {{-- Display different menu items based on customer login status --}}
+  
   @if (auth()->check())
-      {{-- Display this when the customer is logged in --}}
-      <li class="nav-item">
-          <a href="{{ route('customer.logout') }}" class="nav-link">Logout</a>
-      </li>
+     
+      
   @else
       {{-- Display this when the customer is not logged in --}}
       <li class="nav-item">
