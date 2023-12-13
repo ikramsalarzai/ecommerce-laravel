@@ -69,13 +69,6 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-item {{ request()->routeIs('shopDetail') ? 'active' : '' }}">
-                            <a href="{{route('shopDetail')}}" class='sidebar-link'>
-                                <i class="bi bi-shop"></i>
-                                <span>Shop</span>
-                            </a>
-                        </li>
-
                         <li class="sidebar-item has-sub mt-5">
                             <a href="" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
@@ -158,11 +151,10 @@
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
+                        <p>2021 &copy; GreenWich</p>
                     </div>
                     <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                      
                     </div>
                 </div>
             </footer>
