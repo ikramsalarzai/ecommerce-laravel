@@ -36,30 +36,29 @@ class CustomerController extends Controller
      * @return response()
      */
     public function postLogin(Request $request)
-    {
-      $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-      ]);
-    
-      $credentials = $request->only('email', 'password');
-    
-      try {
-        if (Auth::attempt($credentials)) {
-          return redirect(route('/clientHome'));
-        }
-    
-        throw new \Exception('Invalid login credentials.');
-      } catch (\Exception $e) {
-        $errorMessage = $e->getMessage();
-    
-        if (!Customer::where('email', $request->email)->exists()) {
-          $errorMessage = 'Email not found.';
-        }
-    
-        return redirect()->route('customer.login')->withErrors(['credentials' => $errorMessage]);
-      }
+{
+  try {
+    $customer = new Customer($request->only('email', 'password'));
+    $customer->validate($request->all());
+
+    if (Auth::attempt(['email' => $customer->email, 'password' => $request->password])) {
+      return redirect(route('/clientHome'));
     }
+
+    throw new \Exception('Invalid login credentials.');
+  } catch (\Exception $e) {
+    $errorMessage = $e->getMessage();
+
+    if (!$customer->exists) {
+      $errorMessage = 'Email not found.';
+    } elseif ($e->getMessage() === 'The given password was incorrect.') {
+      $errorMessage = 'Incorrect password. Please try again.';
+    }
+
+    return redirect()->route('customer.login')->withErrors(['credentials' => $errorMessage]);
+  }
+}
+
     
     /**
      *
