@@ -8,48 +8,109 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 
+use Session;
+
+
 class CustomerController extends Controller
 {
-    public function showLoginForm()
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function index()
     {
         return view('client.auth.login');
     }
 
-    public function login(Request $request)
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function  postLogin(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only(
+            'email',
+            'password'
+        );
 
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return redirect()->intended('/'); // Redirect to the intended page after successful login
+            return redirect(route('home'));
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors(['email' => 'Invalid credentials']);
+        return redirect(route('customer.login'))->with('error', 'Invalid login credentials. Please try again.');
     }
-
-    public function showRegistrationForm()
+    /**
+     *
+     *
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function register()
     {
         return view('client.auth.register');
     }
 
     public function customerRegister(Request $request)
     {
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:customers'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:customers',
+            'password' => 'required|min:6',
         ]);
-    
-        $user = Customer::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
-    
-        // Automatically log in the user after registration
-        Auth::login($user);
-    
-        return redirect()->route('clientProducts'); // Redirect to the desired page after registration
+
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
+
+        Customer::create($data);
+
+        return redirect(route('customer-login'))->with('success', 'You have successfully registered! Please login to continue.');
     }
-    
+
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function create(array $data)
+    {
+        return Customer::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+
+    public function logout()
+    {
+        Session::flush();
+        Auth::logout();
+        return Redirect('/');
+    }
 }

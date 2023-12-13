@@ -13,7 +13,6 @@ use App\Http\Controllers\CustomerController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
@@ -21,19 +20,17 @@ use App\Http\Controllers\CustomerController;
 */
 
 // customer login
-// login
-Route::get('/customer-login', [CustomerController::class, 'showLoginForm'])->name('customer.login');
- Route::post('/customer-login', [CustomerController::class, 'login'])->name('customer.login');
-
 // register
-Route::get('/customer-registration', [CustomerController::class, 'showRegistrationForm'])->name('customer.registration');
-Route::post('/customer', [CustomerController::class, 'customerRegister'])->name('customer.register');
+Route::get('/customer-signup', [CustomerController::class, 'register'])->name('customer.signup');
+Route::post('/customer-signup', [CustomerController::class, 'customerRegister'])->name('customer.signup');
 
-
+// login
+Route::get('/customer-login', [CustomerController::class, 'index'])->name('customer.login');
+Route::post('/customer-login', [CustomerController::class, 'postLogin'])->name('customer.login');
 
 
 // Client
-Route::controller(ClientController::class)->group(function(){
+Route::controller(ClientController::class)->group(function () {
     Route::get('/', 'index')->name('clientHome');
     Route::get('/products', 'products')->name('clientProducts');
     Route::get('/products-search', 'searchProduct')->name('clientProductSearch');
@@ -53,7 +50,7 @@ Route::controller(ClientController::class)->group(function(){
     Route::get('/about', 'about')->name('clientAbout');
 });
 
-Route::controller(CartController::class)->group(function(){
+Route::controller(CartController::class)->group(function () {
     Route::get('/carts', 'carts')->name('clientCarts');
     Route::post('/add-to-cart', 'addToCart')->name('clientAddToCart');
     Route::post('/update-cart', 'updateCart')->name('clientUpdateCart');
@@ -65,7 +62,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
     // Shop
-    Route::controller(ShopController::class)->group(function() {
+    Route::controller(ShopController::class)->group(function () {
         Route::post('/shop/create', 'create')->name('shopCreate');
         Route::get('/shop/detail', 'detail')->name('shopDetail');
         Route::post('/shop/update', 'update')->name('shopUpdate');
@@ -73,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Category
-    Route::controller(CategoryController::class)->group(function() {
+    Route::controller(CategoryController::class)->group(function () {
         Route::get('/admin/category', 'index')->name('category');
         Route::get('/admin/category/create', 'create')->name('categoryCreate');
         Route::post('/admin/category/check', 'check')->name('categoryCheck');
@@ -82,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Product
-    Route::controller(ProductController::class)->group(function() {
+    Route::controller(ProductController::class)->group(function () {
         Route::get('/admin/products', 'index')->name('products');
         Route::get('/admin/product/create', 'create')->name('productCreate');
         Route::post('/admin/product/check', 'check')->name('productCheck');
@@ -97,11 +94,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Orders
-    Route::controller(OrderController::class)->group(function() {
+    Route::controller(OrderController::class)->group(function () {
         Route::get('/admin/orders', 'index')->name('orders');
         Route::get('/admin/order/{order_code}', 'detail')->name('orderDetail');
         Route::post('/admin/order/update-status/{order_code}', 'updateStatus')->name('orderUpdateStatus');
         Route::get('/admin/order/delete/{order_code}', 'delete')->name('orderDelete');
     });
-
 });

@@ -1,14 +1,9 @@
-<?php
-  use App\Models\Customer;
-  if (!Customer::exists()){
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Customer Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
@@ -25,8 +20,9 @@
                     </div>
                     <h2 class="text-center">Register.</h2>
                     
-                    <form method="POST" action="{{ route('customer.register') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('customer.signup') }}" enctype="multipart/form-data">
                         @csrf
+                        @method('')
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Name">
@@ -68,13 +64,7 @@
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Password Confirmation">
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock-fill"></i>
-                            </div>
-                        </div>
-        
+       
                         <hr/>       
                        
                         <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
