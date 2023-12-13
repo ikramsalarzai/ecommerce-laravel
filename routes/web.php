@@ -26,7 +26,7 @@ Route::post('/customer-signup', [CustomerController::class, 'customerRegister'])
 
 // login
 Route::get('/customer-login', [CustomerController::class, 'index'])->name('customer.login');
-Route::post('/customer-login', [CustomerController::class, 'postLogin'])->name('customer.login');
+Route::post('/customer-login', [CustomerController::class, 'postLogin'])->name('customer.postlogin');
 
 
 // Client

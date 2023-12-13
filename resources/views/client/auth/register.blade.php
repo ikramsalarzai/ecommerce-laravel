@@ -22,7 +22,7 @@
                     
                     <form method="POST" action="{{ route('customer.signup') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('')
+                        @method('post')
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Name">
@@ -84,10 +84,4 @@
     </div>
 </body>
 </html>
-<?php
-  }else{
-    echo '
-    <script>window.location = "/login";</script>
-    ';
-  }
-?>
+ 

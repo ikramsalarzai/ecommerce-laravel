@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
     <title>Customer Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
@@ -20,8 +21,9 @@
                         <a href="/"><h1><u>Greenwich Landmark pictures</u></h1></a>
                     </div>
                     <h2 class="text-center mb-4">Log in</h2>
-                    <form method="POST" action="{{ route('customer.login') }}">
+                    <form method="POST" action="{{ route('customer.postlogin') }}">
                         @csrf
+                        @method('POST')
                         <div class="mb-3">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
                             @error('email')

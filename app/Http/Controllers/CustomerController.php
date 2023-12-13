@@ -35,24 +35,32 @@ class CustomerController extends Controller
      *
      * @return response()
      */
-    public function  postLogin(Request $request)
+    public function postLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $credentials = $request->only(
-            'email',
-            'password'
-        );
-
+      $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+      ]);
+    
+      $credentials = $request->only('email', 'password');
+    
+      try {
         if (Auth::attempt($credentials)) {
-            return redirect(route('home'));
+          return redirect(route('/clientHome'));
         }
-
-        return redirect(route('customer.login'))->with('error', 'Invalid login credentials. Please try again.');
+    
+        throw new \Exception('Invalid login credentials.');
+      } catch (\Exception $e) {
+        $errorMessage = $e->getMessage();
+    
+        if (!Customer::where('email', $request->email)->exists()) {
+          $errorMessage = 'Email not found.';
+        }
+    
+        return redirect()->route('customer.login')->withErrors(['credentials' => $errorMessage]);
+      }
     }
+    
     /**
      *
      *
@@ -78,7 +86,7 @@ class CustomerController extends Controller
 
         Customer::create($data);
 
-        return redirect(route('customer-login'))->with('success', 'You have successfully registered! Please login to continue.');
+        return redirect(route('customer.login'))->with('success', 'You have successfully registered! Please login to continue.');
     }
 
 
