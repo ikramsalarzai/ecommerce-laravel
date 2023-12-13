@@ -39,7 +39,7 @@
 
           <div class="form-group">
             <label for="name">Category name</label>
-            <input type="text" name="name" id="name" class="form-control  @error('name') is-invalid @enderror" placeholder="Chicken" value="{{old('name')}}" required autofocus>
+            <input type="text" name="name" id="name" class="form-control  @error('name') is-invalid @enderror" placeholder="" value="{{old('name')}}" required autofocus>
             @error('name') 
               <small class="text-danger">{{ $message }}</small>
             @enderror

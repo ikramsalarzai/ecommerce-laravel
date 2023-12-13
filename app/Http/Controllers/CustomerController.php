@@ -5,68 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
-
-use Session;
-
 
 class CustomerController extends Controller
 {
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
     public function index()
     {
         return view('client.auth.login');
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
     public function postLogin(Request $request)
-{
-  try {
-    $customer = new Customer($request->only('email', 'password'));
-    $customer->validate($request->all());
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-    if (Auth::attempt(['email' => $customer->email, 'password' => $request->password])) {
-      return redirect(route('/clientHome'));
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::guard('customer')->attempt($credentials)) {
+                return redirect('/');
+            }
+
+            throw new \Exception('Invalid login credentials.');
+        } catch (\Exception $e) {
+            $errorMessage = ($e->getMessage() === 'The given password was incorrect.')
+                ? 'Incorrect password. Please try again.'
+                : $e->getMessage();
+
+            return redirect()->route('customer.login')->withErrors(['credentials' => $errorMessage]);
+        }
     }
 
-    throw new \Exception('Invalid login credentials.');
-  } catch (\Exception $e) {
-    $errorMessage = $e->getMessage();
-
-    if (!$customer->exists) {
-      $errorMessage = 'Email not found.';
-    } elseif ($e->getMessage() === 'The given password was incorrect.') {
-      $errorMessage = 'Incorrect password. Please try again.';
-    }
-
-    return redirect()->route('customer.login')->withErrors(['credentials' => $errorMessage]);
-  }
-}
-
-    
-    /**
-     *
-     *
-     * Write code on Method
-     *
-     * @return response()
-     */
     public function register()
     {
         return view('client.auth.register');
@@ -88,17 +59,6 @@ class CustomerController extends Controller
         return redirect(route('customer.login'))->with('success', 'You have successfully registered! Please login to continue.');
     }
 
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
     public function create(array $data)
     {
         return Customer::create([
@@ -108,16 +68,12 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-
     public function logout()
     {
-        Session::flush();
-        Auth::logout();
-        return Redirect('/');
+
+      
+        Auth::guard('customer')->logout();
+        return redirect(route('customer.login'));
+  
     }
 }

@@ -28,6 +28,10 @@ Route::post('/customer-signup', [CustomerController::class, 'customerRegister'])
 Route::get('/customer-login', [CustomerController::class, 'index'])->name('customer.login');
 Route::post('/customer-login', [CustomerController::class, 'postLogin'])->name('customer.postlogin');
 
+Route::get('/customer-logout', function () {
+    Auth::guard('customer')->logout();
+    return redirect(route('customer.login'));
+})->name('customer.logout');
 
 // Client
 Route::controller(ClientController::class)->group(function () {

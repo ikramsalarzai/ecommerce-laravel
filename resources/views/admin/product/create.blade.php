@@ -18,7 +18,7 @@
           @csrf
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control  @error('title') is-invalid @enderror" placeholder="Chicken nugget spicy" value="{{ old('title') }}" required>
+            <input type="text" name="title" id="title" class="form-control  @error('title') is-invalid @enderror" placeholder="product name here" value="{{ old('title') }}" required>
             @error('title') 
               <small class="text-danger">{{ $message }}</small>
             @enderror
@@ -51,7 +51,7 @@
           </div>
           <div class="form-group">
               <label for="desc">Description</label>
-              <textarea name="desc" id="desc" cols="30" class="form-control @error('desc') is-invalid @enderror" placeholder="Homade spicy chicken nuggets with healty chicken  . . ." required>{{ old('desc') }}</textarea>
+              <textarea name="desc" id="desc" cols="30" class="form-control @error('desc') is-invalid @enderror" placeholder="Add your description . . ." required>{{ old('desc') }}</textarea>
               @error('desc')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>

@@ -17,7 +17,9 @@
 
   
   @if (auth()->check())
-     
+  <li class="nav-item">
+          <a href="{{ route('customer.logout') }}" class="nav-link">Logout</a>
+      </li>
       
   @else
       {{-- Display this when the customer is not logged in --}}
